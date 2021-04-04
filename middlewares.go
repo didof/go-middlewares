@@ -8,6 +8,13 @@ type Middlewares struct {
 	middlewares []Middleware
 }
 
+func createMiddlewares(mws ...Middleware) Middlewares {
+	output := Middlewares{
+		middlewares: mws,
+	}
+	return output
+}
+
 func (mws Middlewares) wrap(f http.HandlerFunc) http.HandlerFunc {
 	for _, mw := range mws.middlewares {
 		f = mw(f)

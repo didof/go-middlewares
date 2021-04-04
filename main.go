@@ -24,7 +24,11 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := mux.NewRouter()
 
-	mws := Middlewares{middlewares: []Middleware{mwLogPath()}}
+	// create manually
+	// mws := Middlewares{middlewares: []Middleware{mwLogPath()}}
+
+	// or create with utility function
+	mws := createMiddlewares(mwLogPath())
 
 	// make and append middleware yourself
 	mwFirst := makeMiddleware(func(w http.ResponseWriter, r *http.Request) {
