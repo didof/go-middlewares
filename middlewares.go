@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 type Middleware func(http.HandlerFunc) http.HandlerFunc
 
@@ -31,6 +34,17 @@ func makeMiddleware(f func(w http.ResponseWriter, r *http.Request)) Middleware {
 	return func(next http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			f(w, r)
+			next(w, r)
+		}
+	}
+}
+
+// MIDDLEWARES
+
+func mwLogPath() Middleware {
+	return func(next http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			log.Println(r.URL.Path)
 			next(w, r)
 		}
 	}
